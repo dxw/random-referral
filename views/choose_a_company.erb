@@ -1,0 +1,9 @@
+<h2>Choose a company</h2>
+
+<form accept-charset="UTF-8" action="/code" data-remote="true" method="get">
+  <select name="company_id" id="company_id">
+    <% unique_companies.each do |company| %>
+      <option value=<%= company[:id] %>><%= company[:text] %></option>
+    <% end %>
+  <input name="commit" type="submit" value="Get a code" data-disable-with="Search" />
+</form>
