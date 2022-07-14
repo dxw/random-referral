@@ -1,15 +1,21 @@
-# hello-express
+# Random Referral
 
-## Made by [Glitch](https://glitch.com/)
+We currently have a spreadsheet which stores referral codes for various different products and services that dxw folks have purchased.
 
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+[Spreadsheet](https://docs.google.com/spreadsheets/d/1fAIEUS1w8wiTfyzrdODdFknuAZdPTrmgc5imZ0ZvNtk/edit?usp=sharing)
 
-Find out more [about Glitch](https://glitch.com/about).
+This was set up to help folks make greener choices.
+It was then decided that it would help make it fairer for all those who added codes, that the access was randomised.
+So we made this!
 
-( ᵔ ᴥ ᵔ )
+This is a web service to allow people to find referral codes from other people at dxw.
 
+## Run it
 
-GoogleDrive::Sessions
-.from_access_token(access_token) ⇒ Object
-OAuth 2.0
-https://developers.google.com/identity/protocols/oauth2#basicsteps
+```
+bundle exec ruby server.rb
+```
+
+You will need a file `.data/gsuite-auth-config.json`.
+This is a config file for a Goolge Server Account.
+This can be found in 1password under `Google Service Account Config for Random Referrals`.
