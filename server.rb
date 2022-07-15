@@ -2,6 +2,7 @@ require 'csv'
 require 'google_drive'
 require 'sinatra'
 require 'dotenv/load'
+require_relative 'models/referral'
 
 get '/', :provides => 'html' do
   unique_companies = referrals.map{|referral| {id: referral.id, text: referral.company }}.uniq
@@ -33,8 +34,7 @@ def referrals
       row[3] == 'Y'
     }.map { |row|
       # columns are zero-indexed
-      OpenStruct.new(
-        # company: OpenStruct.new(id: row[1].gsub(" ", "_").downcase, name: row[1]),
+      Referral.new(
         id: row[1].gsub(" ", "_").downcase,
         company: row[1],
         code: row[2],
