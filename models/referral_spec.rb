@@ -7,6 +7,40 @@ RSpec.describe Referral do
     code: "12356789"
   ) }
 
+  describe ".all" do
+    before do
+      allow(Referral).to receive(:worksheet) {
+        OpenStruct.new(rows: [
+          ['Who (optional)', 'Service', 'Link / code', 'Include in public site?'],
+          ['Person A', 'Service A', 'Code A', 'Y'],
+          ['Person B', 'Service B', 'Code B', 'N'],
+          ['Person C', 'Service C', 'Code C', 'Y'],
+        ])
+      }
+    end
+    it "returns an array of referrals" do
+      Referral.all.each do |referral|
+        expect(referral).to be_instance_of(Referral)
+      end
+    end
+
+    context "when someone has opted in" do
+      it "includes their referral code" do
+        all_referrals = Referral.all
+        all_referral_codes = all_referrals.map(&:code)
+        expect(all_referral_codes).to include("Code A")
+      end
+    end
+
+    context "when someone has not opted in" do
+      it "includes their referral code" do
+        all_referrals = Referral.all
+        all_referral_codes = all_referrals.map(&:code)
+        expect(all_referral_codes).not_to include("Code B")
+      end
+    end
+  end
+
   describe "#id" do
     it "returns the id" do
       expect(subject.id).to eql("fake_id")
@@ -24,5 +58,4 @@ RSpec.describe Referral do
       expect(subject.code).to eql("12356789")
     end
   end
-
 end
