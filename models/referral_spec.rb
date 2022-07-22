@@ -1,20 +1,22 @@
 require_relative "./referral"
 
 RSpec.describe Referral do
-  subject { Referral.new(
-    id: "fake_id",
-    company: "Fake Company",
-    code: "12356789"
-  ) }
+  subject {
+    Referral.new(
+      id: "fake_id",
+      company: "Fake Company",
+      code: "12356789"
+    )
+  }
 
   describe ".all" do
     before do
       allow(Referral).to receive(:worksheet) {
         OpenStruct.new(rows: [
-          ['Who (optional)', 'Service', 'Link / code', 'Include in public site?'],
-          ['Person A', 'Service A', 'Code A', 'Y'],
-          ['Person B', 'Service B', 'Code B', 'N'],
-          ['Person C', 'Service C', 'Code C', 'Y'],
+          ["Who (optional)", "Service", "Link / code", "Include in public site?"],
+          ["Person A", "Service A", "Code A", "Y"],
+          ["Person B", "Service B", "Code B", "N"],
+          ["Person C", "Service C", "Code C", "Y"]
         ])
       }
     end
