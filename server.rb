@@ -14,8 +14,9 @@ get "/code", provides: "html" do
   relevant_referrals = referrals_by_company_id(id: params["company_id"])
   random_referral = relevant_referrals.sample
   code = random_referral.code
+  name = random_referral.name
 
-  erb :referral_code, layout: :layout, locals: {code: code}
+  erb :referral_code, layout: :layout, locals: {code: code, name: name}
 end
 
 def referrals

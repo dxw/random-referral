@@ -28,16 +28,18 @@ class Referral
         Referral.new(
           id: row[1].tr(" ", "_").downcase,
           company: row[1],
-          code: row[2]
+          code: row[2],
+          name: row[0]
         )
       }
   end
 
-  attr_reader :id, :company, :code
+  attr_reader :id, :company, :code, :name
 
-  def initialize(id:, company:, code:)
+  def initialize(id:, company:, code:, name:)
     @id = id
     @company = company
     @code = code
+    @name = name
   end
 end

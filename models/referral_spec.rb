@@ -5,7 +5,8 @@ RSpec.describe Referral do
     Referral.new(
       id: "fake_id",
       company: "Fake Company",
-      code: "12356789"
+      code: "12356789",
+      name: "Alice"
     )
   }
 
@@ -58,6 +59,12 @@ RSpec.describe Referral do
   describe "#code" do
     it "returns the code" do
       expect(subject.code).to eql("12356789")
+    end
+  end
+
+  describe "#name" do
+    it "returns the name" do
+      expect(subject.name).to eql("Alice")
     end
   end
 end
