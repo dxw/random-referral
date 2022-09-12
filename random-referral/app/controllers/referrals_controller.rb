@@ -1,5 +1,5 @@
 class ReferralsController < ApplicationController
   def show
-    @referral = Referral.new
+    @referral = Referral.new(code: "code")
   end
 end

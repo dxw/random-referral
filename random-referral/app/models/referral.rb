@@ -1,5 +1,7 @@
 class Referral
-  def code
-    "test-code"
+  attr_reader :code
+
+  def initialize(code:)
+    @code = code
   end
 end
