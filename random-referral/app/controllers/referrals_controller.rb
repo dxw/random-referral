@@ -1,5 +1,5 @@
 class ReferralsController < ApplicationController
   def show
-    @referral = Referral.new(code: "code")
+    @referral = Referral.random
   end
 end

@@ -49,4 +49,25 @@ RSpec.describe Referral, type: :model do
       expect(referrals).not_to include(an_object_having_attributes(code: "Code for Charlie"))
     end
   end
+
+  describe ".random" do
+    let(:referrals) {
+      [
+        Referral.new(code: "code_1"),
+        Referral.new(code: "code_2")
+      ]
+    }
+    before do
+      allow(Referral).to receive(:all).and_return(referrals)
+    end
+
+    it "returns a random referral" do
+      expected_referral = Referral.new(code: "random_code")
+      expect(referrals).to receive(:sample).and_return(expected_referral)
+
+      random_referral = Referral.random
+
+      expect(random_referral).to be(expected_referral)
+    end
+  end
 end

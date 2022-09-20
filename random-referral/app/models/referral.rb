@@ -26,6 +26,10 @@ class Referral
       }
   end
 
+  def self.random
+    Referral.all.sample
+  end
+
   attr_reader :code
 
   def initialize(code:)
