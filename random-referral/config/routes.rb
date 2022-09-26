@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :referrals
+
+  get :random, controller: "referrals", to: "referrals#random", as: :random_referral
 end

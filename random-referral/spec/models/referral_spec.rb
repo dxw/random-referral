@@ -3,9 +3,16 @@ require "rails_helper"
 RSpec.describe Referral, type: :model do
   subject {
     Referral.new(
+      id: "test-id",
       code: "12356789"
     )
   }
+
+  describe "#id" do
+    it "returns an id" do
+      expect(subject.id).to eql("test-id")
+    end
+  end
 
   describe "#code" do
     it "returns a code" do
@@ -20,10 +27,13 @@ RSpec.describe Referral, type: :model do
           ["Who (optional)", "Service", "Link / code", "Include in public site?"],
           ["Sam", "Service 1", "Code for Sam", "Y"],
           ["Mas", "Service 1", "Code for Mas", "Y"],
-          ["", "Service 1", "Code for unknown", "Y"],
+          ["", "Service 1", "Code for unknown 1", "Y"],
+          ["", "Service 1", "Code for unknown 2", "Y"],
           ["Sam", "Service 2", "Code for Sam", "Y"],
-          ["Bob", "", "Code for Bob", "Y"],
-          ["", "", "Code for double unknown", "Y"],
+          ["Bob", "", "Code for Bob 1", "Y"],
+          ["Bob", "", "Code for Bob 2", "Y"],
+          ["", "", "Code for double unknown 1", "Y"],
+          ["", "", "Code for double unknown 2", "Y"],
           ["Alice", "Service 3", "Code for Alice", ""],
           ["Charlie", "Service 4", "Code for Charlie", "N"]
         ])
@@ -37,24 +47,33 @@ RSpec.describe Referral, type: :model do
     end
 
     it "creates a Referral for a row of the worksheet" do
+      expected_id = Digest::SHA2.hexdigest("Service 1 ::: Code for Mas")
       allow(Referral).to receive(:new)
+
       Referral.all
-      expect(Referral).to have_received(:new).with(code: "Code for Bob")
+
+      expect(Referral).to have_received(:new).with(id: expected_id, code: "Code for Mas")
     end
 
     it "only returns referrals which have opted in to be public" do
       referrals = Referral.all
-      expect(referrals.count).to eq(6)
+      expect(referrals.count).to eq(9)
       expect(referrals).not_to include(an_object_having_attributes(code: "Code for Alice"))
       expect(referrals).not_to include(an_object_having_attributes(code: "Code for Charlie"))
+    end
+
+    it "returns Referrals with unique ids" do
+      referrals = Referral.all
+      referral_ids = referrals.map(&:id)
+      expect(referral_ids.uniq).to eq(referral_ids)
     end
   end
 
   describe ".random" do
     let(:referrals) {
       [
-        Referral.new(code: "code_1"),
-        Referral.new(code: "code_2")
+        Referral.new(id: "1", code: "code_1"),
+        Referral.new(id: "2", code: "code_2")
       ]
     }
     before do
@@ -62,7 +81,7 @@ RSpec.describe Referral, type: :model do
     end
 
     it "returns a random referral" do
-      expected_referral = Referral.new(code: "random_code")
+      expected_referral = Referral.new(id: "random_id", code: "random_code")
       expect(referrals).to receive(:sample).and_return(expected_referral)
 
       random_referral = Referral.random

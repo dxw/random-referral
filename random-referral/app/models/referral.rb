@@ -21,6 +21,7 @@ class Referral
       }.map { |row|
         # columns are zero-indexed
         Referral.new(
+          id: Digest::SHA2.hexdigest("#{row[1]} ::: #{row[2]}"),
           code: row[2]
         )
       }
@@ -30,9 +31,10 @@ class Referral
     Referral.all.sample
   end
 
-  attr_reader :code
+  attr_reader :id, :code
 
-  def initialize(code:)
+  def initialize(id:, code:)
+    @id = id
     @code = code
   end
 end
