@@ -4,7 +4,8 @@ RSpec.describe Referral, type: :model do
   subject {
     Referral.new(
       id: "test-id",
-      code: "12356789"
+      code: "12356789",
+      service_provider: "test-service-provider"
     )
   }
 
@@ -17,6 +18,12 @@ RSpec.describe Referral, type: :model do
   describe "#code" do
     it "returns a code" do
       expect(subject.code).to eql("12356789")
+    end
+  end
+
+  describe "#service_provider" do
+    it "returns a service provider" do
+      expect(subject.service_provider).to eql("test-service-provider")
     end
   end
 
@@ -52,7 +59,7 @@ RSpec.describe Referral, type: :model do
 
       Referral.all
 
-      expect(Referral).to have_received(:new).with(id: expected_id, code: "Code for Mas")
+      expect(Referral).to have_received(:new).with(id: expected_id, code: "Code for Mas", service_provider: "Service 1")
     end
 
     it "only returns referrals which have opted in to be public" do
@@ -72,8 +79,8 @@ RSpec.describe Referral, type: :model do
   describe ".random" do
     let(:referrals) {
       [
-        Referral.new(id: "1", code: "code_1"),
-        Referral.new(id: "2", code: "code_2")
+        Referral.new(id: "id-one", code: "code_1", service_provider: "Service 1"),
+        Referral.new(id: "id-two", code: "code_2", service_provider: "Service 2")
       ]
     }
     before do
@@ -81,7 +88,7 @@ RSpec.describe Referral, type: :model do
     end
 
     it "returns a random referral" do
-      expected_referral = Referral.new(id: "random_id", code: "random_code")
+      expected_referral = Referral.new(id: "random_id", code: "random_code", service_provider: "random_service")
       expect(referrals).to receive(:sample).and_return(expected_referral)
 
       random_referral = Referral.random
