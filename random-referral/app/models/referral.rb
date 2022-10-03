@@ -38,4 +38,8 @@ class Referral
     @code = code
     @service_provider = service_provider
   end
+
+  def service_provider_id
+    @service_provider.parameterize
+  end
 end

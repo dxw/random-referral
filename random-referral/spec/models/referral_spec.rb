@@ -4,13 +4,13 @@ RSpec.describe Referral, type: :model do
   subject {
     Referral.new(
       code: "12356789",
-      service_provider: "test-service-provider"
+      service_provider: "Test Service Prov.ider"
     )
   }
 
   describe "#id" do
     it "returns a generated id" do
-      expected_id = Digest::SHA2.hexdigest("test-service-provider ::: 12356789")
+      expected_id = Digest::SHA2.hexdigest("Test Service Prov.ider ::: 12356789")
 
       expect(subject.id).to eql(expected_id)
     end
@@ -24,7 +24,13 @@ RSpec.describe Referral, type: :model do
 
   describe "#service_provider" do
     it "returns a service provider" do
-      expect(subject.service_provider).to eql("test-service-provider")
+      expect(subject.service_provider).to eql("Test Service Prov.ider")
+    end
+  end
+
+  describe "#service_provider_id" do
+    it "replaces non word characters in #service_provider with underscores" do
+      expect(subject.service_provider_id).to eql("test-service-prov-ider")
     end
   end
 
