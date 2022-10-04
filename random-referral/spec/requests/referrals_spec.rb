@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "Referrals", type: :request do
   let(:referrals) {
     [
-      Referral.new(code: "code_1", service_provider: "Service 1"),
-      Referral.new(code: "code_2", service_provider: "Service 2")
+      Referral.new(code: "code_1", person_name: "person one", service_provider: "Service 1"),
+      Referral.new(code: "code_2", person_name: "person two", service_provider: "Service 2")
     ]
   }
   before do

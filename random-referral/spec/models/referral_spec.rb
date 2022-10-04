@@ -4,6 +4,7 @@ RSpec.describe Referral, type: :model do
   subject {
     Referral.new(
       code: "12356789",
+      person_name: "Test Person",
       service_provider: "Test Service Prov.ider"
     )
   }
@@ -19,6 +20,12 @@ RSpec.describe Referral, type: :model do
   describe "#code" do
     it "returns a code" do
       expect(subject.code).to eql("12356789")
+    end
+  end
+
+  describe "#person_name" do
+    it "returns the person's name" do
+      expect(subject.person_name).to eql("Test Person")
     end
   end
 
@@ -65,7 +72,7 @@ RSpec.describe Referral, type: :model do
 
       Referral.all
 
-      expect(Referral).to have_received(:new).with(code: "Code for Mas", service_provider: "Service 1")
+      expect(Referral).to have_received(:new).with(code: "Code for Mas", person_name: "Mas", service_provider: "Service 1")
     end
 
     it "only returns referrals which have opted in to be public" do
@@ -83,14 +90,14 @@ RSpec.describe Referral, type: :model do
   end
 
   describe ".random" do
-    let(:service_1_referral) { Referral.new(code: "code_1", service_provider: "Service 1") }
+    let(:service_1_referral) { Referral.new(code: "code_1", person_name: "person one", service_provider: "Service 1") }
     let(:referrals) {
       [
         service_1_referral,
-        Referral.new(code: "code_2", service_provider: "Service 2"),
-        Referral.new(code: "code_3", service_provider: "Service 3"),
-        Referral.new(code: "code_4", service_provider: "Service 4"),
-        Referral.new(code: "code_5", service_provider: "Service 5")
+        Referral.new(code: "code_2", person_name: "person two", service_provider: "Service 2"),
+        Referral.new(code: "code_3", person_name: "person three", service_provider: "Service 3"),
+        Referral.new(code: "code_4", person_name: "person four", service_provider: "Service 4"),
+        Referral.new(code: "code_5", person_name: "person five", service_provider: "Service 5")
       ]
     }
     before do
@@ -98,7 +105,7 @@ RSpec.describe Referral, type: :model do
     end
 
     it "returns a random referral" do
-      expected_referral = Referral.new(code: "random_code", service_provider: "random_service")
+      expected_referral = Referral.new(code: "random_code", person_name: "random person", service_provider: "random_service")
       expect(referrals).to receive(:sample).and_return(expected_referral)
 
       random_referral = Referral.random
