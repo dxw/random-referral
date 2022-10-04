@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  root "referrals#index_by_service_provider"
+
   resources :referrals
 
-  get :random, controller: "referrals", to: "referrals#random", as: :random_referral
+  get ":service_provider/random", controller: "referrals", to: "referrals#random", as: :random_referral
 end

@@ -23,14 +23,14 @@ RSpec.describe "Referrals", type: :request do
     end
   end
 
-  describe "GET /random" do
+  describe "GET /:service_provider/random" do
     it "does a redirect" do
-      get "/random"
+      get "/service-1/random"
       expect(response.status).to eql(302)
     end
 
     it "redirects to a referral url" do
-      get "/random"
+      get "/service-2/random"
       expect(response.header["Location"]).to match(/^\w+:\/\/[\w.]+\/referrals\/[\w-]+$/)
     end
   end
