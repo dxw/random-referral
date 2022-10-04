@@ -83,10 +83,14 @@ RSpec.describe Referral, type: :model do
   end
 
   describe ".random" do
+    let(:service_1_referral) { Referral.new(code: "code_1", service_provider: "Service 1") }
     let(:referrals) {
       [
-        Referral.new(code: "code_1", service_provider: "Service 1"),
-        Referral.new(code: "code_2", service_provider: "Service 2")
+        service_1_referral,
+        Referral.new(code: "code_2", service_provider: "Service 2"),
+        Referral.new(code: "code_3", service_provider: "Service 3"),
+        Referral.new(code: "code_4", service_provider: "Service 4"),
+        Referral.new(code: "code_5", service_provider: "Service 5")
       ]
     }
     before do
@@ -100,6 +104,14 @@ RSpec.describe Referral, type: :model do
       random_referral = Referral.random
 
       expect(random_referral).to be(expected_referral)
+    end
+
+    context "with a service provider" do
+      it "returns a referral for that service provider" do
+        random_referral = Referral.random(service_provider_id: "service-1")
+
+        expect(random_referral).to be(service_1_referral)
+      end
     end
   end
 end

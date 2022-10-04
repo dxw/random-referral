@@ -27,8 +27,16 @@ class Referral
       }
   end
 
-  def self.random
-    Referral.all.sample
+  def self.random(service_provider_id: nil)
+    referrals = if service_provider_id.nil?
+      Referral.all
+    else
+      Referral.all.select { |referral|
+        referral.service_provider_id == service_provider_id
+      }
+    end
+
+    referrals.sample
   end
 
   attr_reader :id, :code, :service_provider
