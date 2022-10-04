@@ -21,6 +21,16 @@ RSpec.describe "Referrals", type: :request do
       get "/referrals/#{referrals.last.id}"
       expect(response.body).to include("code_2")
     end
+
+    it "renders a person name" do
+      get "/referrals/#{referrals.first.id}"
+      expect(response.body).to include("data-testid=\"referral-person-name\"")
+    end
+
+    it "renders the correct person name" do
+      get "/referrals/#{referrals.last.id}"
+      expect(response.body).to include("person two")
+    end
   end
 
   describe "GET /:service_provider/random" do
