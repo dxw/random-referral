@@ -44,6 +44,7 @@ group :development, :test do
   gem "rspec-rails", "~> 6.0.0.rc1"
   gem "standard"
   gem "dotenv-rails"
+  gem "pry"
 end
 
 group :development do
