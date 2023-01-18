@@ -30,3 +30,5 @@
 /config/master.key
 
 .env
+.vscode/
+.DS_Store
