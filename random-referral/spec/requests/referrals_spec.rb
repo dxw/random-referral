@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "Referrals", type: :request do
   let(:referrals) {
     [
-      Referral.new(id: "id-one", code: "code_1", service_provider: "Service 1"),
-      Referral.new(id: "id-two", code: "code_2", service_provider: "Service 2")
+      Referral.new(code: "code_1", service_provider: "Service 1"),
+      Referral.new(code: "code_2", service_provider: "Service 2")
     ]
   }
   before do
@@ -13,12 +13,12 @@ RSpec.describe "Referrals", type: :request do
 
   describe "GET /referrals/:id" do
     it "renders a code" do
-      get "/referrals/id-one"
+      get "/referrals/#{referrals.first.id}"
       expect(response.body).to include("data-testid=\"referral-code\"")
     end
 
     it "renders the correct code" do
-      get "/referrals/id-two"
+      get "/referrals/#{referrals.last.id}"
       expect(response.body).to include("code_2")
     end
   end

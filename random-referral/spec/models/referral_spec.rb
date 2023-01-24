@@ -3,15 +3,16 @@ require "rails_helper"
 RSpec.describe Referral, type: :model do
   subject {
     Referral.new(
-      id: "test-id",
       code: "12356789",
       service_provider: "test-service-provider"
     )
   }
 
   describe "#id" do
-    it "returns an id" do
-      expect(subject.id).to eql("test-id")
+    it "returns a generated id" do
+      expected_id = Digest::SHA2.hexdigest("test-service-provider ::: 12356789")
+
+      expect(subject.id).to eql(expected_id)
     end
   end
 
@@ -54,12 +55,11 @@ RSpec.describe Referral, type: :model do
     end
 
     it "creates a Referral for a row of the worksheet" do
-      expected_id = Digest::SHA2.hexdigest("Service 1 ::: Code for Mas")
       allow(Referral).to receive(:new)
 
       Referral.all
 
-      expect(Referral).to have_received(:new).with(id: expected_id, code: "Code for Mas", service_provider: "Service 1")
+      expect(Referral).to have_received(:new).with(code: "Code for Mas", service_provider: "Service 1")
     end
 
     it "only returns referrals which have opted in to be public" do
@@ -79,8 +79,8 @@ RSpec.describe Referral, type: :model do
   describe ".random" do
     let(:referrals) {
       [
-        Referral.new(id: "id-one", code: "code_1", service_provider: "Service 1"),
-        Referral.new(id: "id-two", code: "code_2", service_provider: "Service 2")
+        Referral.new(code: "code_1", service_provider: "Service 1"),
+        Referral.new(code: "code_2", service_provider: "Service 2")
       ]
     }
     before do
@@ -88,7 +88,7 @@ RSpec.describe Referral, type: :model do
     end
 
     it "returns a random referral" do
-      expected_referral = Referral.new(id: "random_id", code: "random_code", service_provider: "random_service")
+      expected_referral = Referral.new(code: "random_code", service_provider: "random_service")
       expect(referrals).to receive(:sample).and_return(expected_referral)
 
       random_referral = Referral.random
