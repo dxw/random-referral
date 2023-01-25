@@ -31,6 +31,13 @@ RSpec.describe "Referrals", type: :request do
       get "/referrals/#{referrals.last.id}"
       expect(response.body).to include("person two")
     end
+
+    context "when the referral id does not exist" do
+      it "renders an error page" do
+        get "/referrals/wrong-id"
+        expect(response.body).to include("data-testid=\"page-not-found\"")
+      end
+    end
   end
 
   describe "GET /:service_provider/random" do

@@ -1,4 +1,6 @@
 class ReferralsController < ApplicationController
+  rescue_from NoMethodError, with: :no_method_error
+
   def index_by_service_provider
     @service_providers = Referral.all.map { |referral|
       {id: referral.service_provider_id, name: referral.service_provider}
