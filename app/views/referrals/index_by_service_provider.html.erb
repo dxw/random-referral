@@ -1,0 +1,9 @@
+<h2>Choose a company</h2>
+
+<ul>
+  <% @service_providers.map do |service_provider| %>
+    <li>
+      <a href=<%=random_referral_path(service_provider: service_provider[:id])%>><%= service_provider[:name] %></a>
+    </li>
+  <% end %>
+</ul>
